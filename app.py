@@ -57,29 +57,26 @@ def login():
     else:
         pass
 
-@app.route('/highschool_register', methods=['POST'])
-def highschool_register():
-    #to register as HIGHSCHOOL: first name, last name, highschool, age, bio
+@app.route('/register', methods=['POST'])
+def register():
 
     if request.method == 'POST':
         data = json.loads(request.data)
 
-        add_highschool(data['email'], data['password'], \
-                       data['age'], data['first'], data['last'], data['bio'], \
-                       data['highschool'])
+        if data['role'] == 2:
+            new_mentor = models.Mentor(data['email'], data['password'],
+            data['age'], data['first'], data['last'], data['bio'],
+            data['highschool'])
 
+            new_mentor.add_Mentor()
 
-@app.route('/university_register', methods=['POST'])
-def university_register():
-    #to register as UNIVERSITY: email, first name, last name, university, age, major, bio
+        elif data['role'] == 1:
 
-    if request.method == 'POST':
-        data = json.loads(request.data)
+            new_highschool = models.HighSchool(data['email'], data['password'],
+            data['age'], data['first'], data['last'], data['bio'],
+            data['highschool'])
 
-        add_uni(data['email'], data['password'], \
-                       data['age'], data['first'], data['last'], data['bio'], \
-                       data['highschool'])
-
+            new_highschool.add_HighSchooler()
 
 '''
 ==== Begin Test Cases ===
