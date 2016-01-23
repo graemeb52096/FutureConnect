@@ -1,6 +1,6 @@
 __author__ = 'BatesG1996'
 
-from flask import Flask, url_for, request
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 
