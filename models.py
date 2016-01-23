@@ -1,6 +1,29 @@
 __author__ = 'BatesG1996'
 
 # Houses classes for User data
+'''
+import MySQLdb
+
+#creates database
+
+db1 = MS.connect(host="localhost",user="root",passwd="****")
+cursor = db1.cursor()
+sql = 'CREATE DATABASE mydata'
+cursor.execute(sql)
+
+
+#creates table
+
+sql = CREATE TABLE foo (
+       bar VARCHAR(50) DEFAULT NULL
+       ) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+cursor.execute(sql)
+
+
+
+
+'''
 
 class User:
 
@@ -22,6 +45,7 @@ class User:
 
         #return database data
         pass
+
 
 
 class Highschool(User):
