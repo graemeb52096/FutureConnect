@@ -1,24 +1,51 @@
 __author__ = 'BatesG1996'
 
 # Houses classes for User data
+
+#Before connecting to a MySQL database, make sure of the followings −
+
+#You have created a database TESTDB.
+
+#You have created a table EMPLOYEE in TESTDB.
+
+#This table has fields FIRST_NAME, LAST_NAME, AGE, SEX and INCOME.
+
+#User ID "testuser" and password "test123" are set to access TESTDB.
+
+#Python module MySQLdb is installed properly on your machine.
 '''
 import MySQLdb
 
-#creates database
+# Open database connection
+db = MySQLdb.connect("localhost","testuser","test123","TESTDB" )
 
-db1 = MS.connect(host="localhost",user="root",passwd="****")
-cursor = db1.cursor()
-sql = 'CREATE DATABASE mydata'
+# prepare a cursor object using cursor() method
+cursor = db.cursor()
+
+# execute SQL query using execute() method.
+cursor.execute("SELECT VERSION()")
+
+# Create User table with information ALL Users have
+sql1 = """CREATE TABLE USERS (
+         EMAIL  CHAR(100) NOT NULL,
+         PASSWORD  CHAR(100),
+         AGE INT,
+         FIRST_NAME CHAR(100),
+         LAST_NAME CHAR(100))"""
+
+# Create Highschool table
+sql2 = """CREATE TABLE HIGHSCHOOLS (
+         HIGHSCHOOL  CHAR(100) NOT NULL)"""
+
 cursor.execute(sql)
 
+# Fetch a single row using fetchone() method.
+data = cursor.fetchone()
 
-#creates table
+print "Database version : %s " % data
 
-sql = CREATE TABLE foo (
-       bar VARCHAR(50) DEFAULT NULL
-       ) ENGINE=MyISAM DEFAULT CHARSET=latin1
-
-cursor.execute(sql)
+# disconnect from server
+db.close()
 
 
 
