@@ -1,68 +1,107 @@
 __author__ = 'BatesG1996'
 
 # Houses classes for User data
-'''
+
+#Before connecting to a MySQL database, make sure of the followings −
+
+#You have created a database TESTDB.
+
+#You have created a table EMPLOYEE in TESTDB.
+
+#This table has fields FIRST_NAME, LAST_NAME, AGE, SEX and INCOME.
+
+#User ID "testuser" and password "test123" are set to access TESTDB.
+
+#Python module MySQLdb is installed properly on your machine.
+
 import MySQLdb
 
-#creates database
+# Open database connection
+db = MySQLdb.connect("localhost","testuser","test123","TESTDB" )
 
-db1 = MS.connect(host="localhost",user="root",passwd="****")
-cursor = db1.cursor()
-sql = 'CREATE DATABASE mydata'
-cursor.execute(sql)
+# prepare a cursor object using cursor() method
+cursor = db.cursor()
 
+# execute SQL query using execute() method.
+cursor.execute("SELECT VERSION()")
 
-#creates table
+# Create University table
+sql1 = """CREATE TABLE UNIVERSITY (
+         EMAIL  CHAR(100) NOT NULL,
+         PASSWORD  CHAR(100) NOT NULL,
+         AGE CHAR(3) NOT NULL,
+         FIRST_NAME CHAR(100) NOT NULL,
+         LAST_NAME CHAR(100) NOT NULL,
+         BIO CHAR(200),
+         UNIVERSITY CHAR(100) NOT NULL,
+         MAJOR CHAR(100))"""
 
-sql = CREATE TABLE foo (
-       bar VARCHAR(50) DEFAULT NULL
-       ) ENGINE=MyISAM DEFAULT CHARSET=latin1
+# Create Highschool table
+sql2 = """CREATE TABLE HIGHSCHOOLS (
+         EMAIL CHAR(100) NOT NULL,
+         PASSWORD CHAR (100) NOT NULL,
+         AGE CHAR(3) NOT NULL,
+         FIRST_NAME CHAR(100) NOT NULL,
+         LAST_NAME CHAR(100) NOT NULL,
+         BIO CHAR(200),
+         HIGHSCHOOL CHAR(100) NOT NULL,)"""
 
-cursor.execute(sql)
+cursor.execute(sql1)
+cursor.execute(sql2)
 
-
-
-
-'''
+# disconnect from server
+db.close()
 
 class User:
 
-    def __init__(self, email, password, first, last):
+    def __init__(self, email, password, first, last, bio, age):
 
-        self.email, self.password, self.first, self.last = \
-        email, password, first, last
-
-    def add_user(self, user):
-
-        #add user to database
-        pass
-
-    def delete_user(self, user):
-        pass
-        #delete user
-
-    def get_data(self):
-
-        #return database data
-        pass
+        self.email, self.password, self.first, self.last, self.bio, self.age = \
+        email, password, first, last, bio, age
 
 
+class HighSchool(User):
 
-class Highschool(User):
+    def __init__(self, email, password, first, last, bio, age, high_school):
 
-    def __init__(self, email, password, first, last, highschool):
+        super(HighSchool, self).__init__(email, password, first, last, bio, age)
+        self.high_school = high_school
 
-        super(Highschool, self).__init__(email, password, first, last)
-        self.highschool = highschool
-
+        #the SQL commands
+        sql = """INSERT INTO UNIVERSITY (
+                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
+                        HIGHSCHOOL)
+                        VALUES ({0},{1},{2},{3},{4},{5},{6})"""
+        cursor.execute(sql.format(self.email, self.password, self.age,
+                                  self.first, self.last,self.bio,
+                                  self.high_school))
 
 class University(User):
 
-    def __init__(self, email, password, first, last, university, major):
+    def __init__(self, email, password, first, last, bio, age, university,
+                 major):
 
-        super(University, self).__init__(email, password, first, last)
+        super(University, self).__init__(email, password, first, last, bio, age)
         self.university, self.major = university, major
 
+    def add_uni(self):
+        #the SQL commands
+        sql = """INSERT INTO UNIVERSITY (
+                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
+                        UNIVERSITY, MAJOR)
+                        VALUES ({0},{1},{2},{3},{4},{5},{6},{7})"""
+        cursor.execute(sql.format(self.email, self.password, self.age,
+                                  self.first, self.last,self.bio,
+                                  self.university, self.major))
+
+class Admin(User):
+
+    def __init__(self, email, password, first, last, bio, age):
+        super(Admin, self).__init__(email, password, first, last, bio, age)
+        #Admin does not take any special arguments
+
+    def delete_user(self, user):
+        #admin can delete users
 
 
 
