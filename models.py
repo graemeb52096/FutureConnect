@@ -1,98 +1,102 @@
-__author__ = 'BatesG1996'
-
-# Houses classes for User data
-
-#Before connecting to a MySQL database, make sure of the followings −
-
-#You have created a database TESTDB.
-
-#You have created a table EMPLOYEE in TESTDB.
-
-#This table has fields FIRST_NAME, LAST_NAME, AGE, SEX and INCOME.
-
-#User ID "testuser" and password "test123" are set to access TESTDB.
-
-#Python module MySQLdb is installed properly on your machine.
 
 import MySQLdb
 
-# Open database connection
-db = MySQLdb.connect("localhost","testuser","test123","TESTDB" )
+db = MySQLdb.connect("localhost","root","265358","usersdb" )
 
-# prepare a cursor object using cursor() method
 cursor = db.cursor()
 
-# execute SQL query using execute() method.
-cursor.execute("SELECT VERSION()")
-
-# Create University table
-sql1 = """CREATE TABLE UNIVERSITY (
-         EMAIL  CHAR(100) NOT NULL,
-         PASSWORD  CHAR(100) NOT NULL,
-         AGE CHAR(3) NOT NULL,
-         FIRST_NAME CHAR(100) NOT NULL,
-         LAST_NAME CHAR(100) NOT NULL,
-         BIO CHAR(200),
-         UNIVERSITY CHAR(100) NOT NULL,
-         MAJOR CHAR(100))"""
-
-# Create Highschool table
-sql2 = """CREATE TABLE HIGHSCHOOLS (
-         EMAIL CHAR(100) NOT NULL,
-         PASSWORD CHAR (100) NOT NULL,
-         AGE CHAR(3) NOT NULL,
-         FIRST_NAME CHAR(100) NOT NULL,
-         LAST_NAME CHAR(100) NOT NULL,
-         BIO CHAR(200),
-         HIGHSCHOOL CHAR(100) NOT NULL,)"""
-
-cursor.execute(sql1)
-cursor.execute(sql2)
-
-# disconnect from server
 db.close()
 
 class User:
 
-    def __init__(self, email, password, first, last, bio, age):
+    def __init__(self, email, password, type, first, last, bio):
 
-        self.email, self.password, self.first, self.last, self.bio, self.age = \
-        email, password, first, last, bio, age
+        self.email = email
+        self.password = password
+        self.type = type
+        self.first = first
+        self.last = last
+        self.bio = bio
+
+        sql = "INSERT INTO Users (email, password," \
+              "user_type, bio, first_name, last_name)" \
+              "VALUES ({0}, {1}, {2}, {3}, {4}, {5});"
+
+        cursor.execute(sql.format(self.email, self.password,
+                                  self.type, self.bio,
+                                  self.first, self.last))
+    def edit_info(self):
+
+        raise NotImplementedError('Implemented in a subclass')
 
 
 class HighSchool(User):
 
-    def __init__(self, email, password, first, last, bio, age, high_school):
+    def __init__(self, email, password, first, last, bio, year, high_school):
 
-        super(HighSchool, self).__init__(email, password, first, last, bio, age)
+        super(HighSchool, self).__init__(email, password, first, last, bio, year)
+
         self.high_school = high_school
+        self.year = year
 
         #the SQL commands
-        sql = """INSERT INTO UNIVERSITY (
-                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
-                        HIGHSCHOOL)
-                        VALUES ({0},{1},{2},{3},{4},{5},{6})"""
-        cursor.execute(sql.format(self.email, self.password, self.age,
-                                  self.first, self.last,self.bio,
-                                  self.high_school))
 
-class University(User):
+        q = "INSERT INTO GoesToHS (email, school, grade)" \
+            "SELECT email, {0} as school, major, {1} as grade" \
+            "FROM User" \
+            "WHERE User.email = {2};"
 
-    def __init__(self, email, password, first, last, bio, age, university,
-                 major):
+        cursor.execute(q.format(self.high_school, self.year, self.email))
 
-        super(University, self).__init__(email, password, first, last, bio, age)
-        self.university, self.major = university, major
+    def edit_info(self, pw, yr, fn, ln, bio, ut):
 
-    def add_uni(self):
-        #the SQL commands
-        sql = """INSERT INTO UNIVERSITY (
-                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
-                        UNIVERSITY, MAJOR)
-                        VALUES ({0},{1},{2},{3},{4},{5},{6},{7})"""
-        cursor.execute(sql.format(self.email, self.password, self.age,
-                                  self.first, self.last,self.bio,
-                                  self.university, self.major))
+        q = "UPDATE GoesToHS" \
+            "SET user_type = {7}, bio = {5}," \
+            "first_name = {3}, last_name = {4}," \
+            "school = {6}, year = {2}, password = {1}" \
+            "WHERE email = {0};"
+
+        cursor.execute(q.format(self.email, pw, yr, fn, ln, bio, ut))
+
+
+class Mentor(User):
+
+    def __init__(self, email, password, first, last, bio, university,
+                 major, year):
+
+        super(Mentor, self).__init__(email, password, first, bio)
+
+        self.university = university
+        self.major = major
+        self.year = year
+
+        q = "INSERT INTO GoesToUni (email, school, major, year)" \
+              "SELECT email, university as school, major, {0} as year" \
+              "FROM User, Universities, Major" \
+              "WHERE User.email = {1}" \
+              "AND Universities.uni = {2}" \
+              "AND Majors.major = {3};"
+
+        cursor.execute(q.format(self.year, self.email, self.university, self.major))
+
+    def edit_info(self, pw, yr, fn, ln, bio, uni, major, type):
+
+        q = "UPDATE GoesToUni" \
+            "SET school = (SELECT uni" \
+                            "FROM Universities" \
+                            "WHERE uni = {6}), " \
+                "major = (SELECT major" \
+                            "FROM Majors" \
+                            "WHERE major = {7})," \
+            "user_type = {8}, bio = {5}," \
+            "first_name = {3}, last_name = {4}," \
+            "year = {2}, password = {1}" \
+            "WHERE email = {0};"
+
+        cursor.execute(q.format(self.email, pw, yr, fn, ln, bio, uni, major, type))
+
+    def
+
 
 class Admin(User):
 
@@ -100,9 +104,16 @@ class Admin(User):
         super(Admin, self).__init__(email, password, first, last, bio, age)
         #Admin does not take any special arguments
 
-    def delete_user(self, user):
-        #admin can delete users
+    def delete_user(self, email):
 
+        q = "DELETE FROM GoesToHS" \
+            "WHERE email = {0};" \
+            "DELETE FROM GoesToUni" \
+            "WHERE email = {0};" \
+            "DELETE FROM Users" \
+            "WHERE email = {0};"
+
+        cursor.execute(q.format(email))
 
 
 
