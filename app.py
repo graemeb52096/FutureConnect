@@ -40,6 +40,11 @@ def Authenticate(cred):
             'Message': 'Password incorrect'
         }
 
+class Login:
+
+    def get(self):
+        pass
+
 '''
 ==== Begin Test Cases ===
 '''
@@ -63,7 +68,6 @@ class TestUserResponse(Resource):
         return {
             'Users': Users
         }
-
 api.add_resource(TestUserResponse, '/Users')
 '''
 ==== End Test Cases ===
