@@ -1,13 +1,39 @@
 <div ng-controller="landingCtrl">
-    <nav>
+    <nav class="purple lighten-2">
+
         <div class="nav-wrapper">
-            <a>Future Connect</a>
+            <a class="brand-logo center">Future Connect</a>
         </div>
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col s12 m8 l6 offset-l3 offset-m2">
-                {{ user }} currently logged in.
+            <div class="col l12">
+                <table class="table bordered">
+                    <caption>
+                        <h3>Mentors</h3>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>
+                                <select>
+                                    <option>Test0</option>
+                                    <option>Test1</option>
+                                </select>
+                            </th>
+                            <th>School</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="User in Users | orderBy:sort" ng-if="User.type == 2">
+                            <td>{{ User.fName }} {{ User.lName }}</td>
+                            <td>{{ User.program }}</td>
+                            <td>{{ User.uni }}</td>
+                            <td>{{ User.email }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -15,11 +15,18 @@
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/Materialize/bin/materialize.js"></script>
+<script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
 
 <!-- Custom Views -->
 <script src="login/login.js"></script>
 <script src="landing/landing.js"></script>
 
 <script src="app.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
 </body>
 </html>

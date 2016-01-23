@@ -66,17 +66,35 @@ Graeme = {
     'fName': 'Graeme',
     'lName': 'Bates',
     'email': 'batesg1996@gmail.com',
-    'password': 'password'
+    'password': 'password',
+    'type': 2,
+    'program': 'Computer Science',
+    'uni': 'University of Toronto'
+
+}
+Joe = {
+    'fName': 'Joe',
+    'lName': 'Smith',
+    'email': 'joesmith@gmail.com',
+    'password': 'password',
+    'type': 2,
+    'program': 'Philosophy',
+    'uni': 'University of British Columbia'
+
 }
 
 Test = {
-    'fname': 'User',
+    'fName': 'User',
     'lName': 'Null',
     'email': 'test@example.com',
     'password': 'password'
 }
 
-Users = {'batesg1996@gmail.com': Graeme, 'test@example.com': Test}
+Users = {
+    'batesg1996@gmail.com': Graeme,
+    'test@example.com': Test,
+    'joesmith@gmail.com': Joe
+}
 class TestUserResponse(Resource):
     def get(self):
         return {
