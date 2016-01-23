@@ -25,19 +25,27 @@ cursor = db.cursor()
 # execute SQL query using execute() method.
 cursor.execute("SELECT VERSION()")
 
-# Create User table with information ALL Users have
-sql1 = """CREATE TABLE USERS (
+# Create University table
+sql1 = """CREATE TABLE UNIVERSITY (
          EMAIL  CHAR(100) NOT NULL,
-         PASSWORD  CHAR(100),
-         AGE INT,
-         FIRST_NAME CHAR(100),
-         LAST_NAME CHAR(100))"""
+         PASSWORD  CHAR(100) NOT NULL,
+         AGE INT NOT NULL,
+         FIRST_NAME CHAR(100) NOT NULL,
+         LAST_NAME CHAR(100) NOT NULL,
+         UNIVERSITY CHAR(100) NOT NULL,
+         MAJOR CHAR(100))"""
 
 # Create Highschool table
 sql2 = """CREATE TABLE HIGHSCHOOLS (
-         HIGHSCHOOL  CHAR(100) NOT NULL)"""
+         EMAIL CHAR(100) NOT NULL,
+         PASSWORD CHAR (100) NOT NULL,
+         AGE INT NOT NULL,
+         FIRST_NAME CHAR(100), NOT NULL
+         LAST_NAME CHAR(100), NOT NULL
+         HIGHSCHOOL CHAR(100), NOT NULL)"""
 
-cursor.execute(sql)
+cursor.execute(sql1)
+cursor.execute(sql2)
 
 # Fetch a single row using fetchone() method.
 data = cursor.fetchone()
