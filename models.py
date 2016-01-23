@@ -9,6 +9,21 @@ class User:
         self.email, self.password, self.first, self.last = \
         email, password, first, last
 
+    def add_user(self, user):
+
+        #add user to database
+        pass
+
+    def delete_user(self, user):
+        pass
+        #delete user
+
+    def get_data(self):
+
+        #return database data
+        pass
+
+
 class Highschool(User):
 
     def __init__(self, email, password, first, last, highschool):
