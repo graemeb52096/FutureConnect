@@ -32,7 +32,8 @@ angular.module('FutureConnect.login', [
             }).success(function(data, status, headers, config) {
                 console.log(data);
                 if(data['Response'] == 'True'){
-                    $location.path('/Landing');
+                    $rootScope.logged = true;
+                    $location.path('/landing');
                 }
                 else{
                     $scope.message = data['Message'];
