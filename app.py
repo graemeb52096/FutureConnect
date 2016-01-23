@@ -1,12 +1,16 @@
 __author__ = 'BatesG1996'
 
-from flask import Flask, request
+from flask import Flask, request, make_response, current_app
 from flask_restful import Resource, Api
+from flask_cors import CORS
+import json
+import models
 
 
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 def Authenticate(cred):
     '''
@@ -24,31 +28,36 @@ def Authenticate(cred):
         goal_User = Users[cred['email']]
     # If user is not found, return key error
     except KeyError:
-        return {
+        response = {
             'Response': 'False',
             'Message': 'Invalid email'
         }
+        return response
     # Once User is Validated, check if password is a match
     if goal_User['password'] == cred['password']:
         # If match, return True
-        return {
+        response = {
             'Response': 'True',
-            'Message': 'Credentials Correct'
+            'Message': 'Credentials Correct',
+            'Data': goal_User['email']
         }
+        return response
     else:
         # Else, return False
-        return {
+        response = {
             'Response': 'False',
             'Message': 'Password incorrect'
         }
+        return response
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        Authenticate(request.data)
+        data = json.loads(request.data)
+        response = Authenticate(data)
+        return json.dumps(response)
     else:
         pass
-
 
 '''
 ==== Begin Test Cases ===
