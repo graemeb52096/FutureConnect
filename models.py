@@ -4,7 +4,7 @@ db = MySQLdb.connect("localhost", "root", "data", "FutureConnectDev")
 cursor = db.cursor()
 
 
-class User:
+class User(object):
     def add_user(self):
         '''
 
@@ -69,7 +69,7 @@ class HighSchool(User):
             self, email, password, first, last, bio, high_school
         ):
 
-        super(HighSchool, self).__init__(email, password, first, last, bio)
+        User.__init__(self, email, password, first, last, bio)
         self.school = high_school
         self.role = 1
 
@@ -77,13 +77,12 @@ class Mentor(User):
 
     def add_Mentor(self):
         pass
-    
+
     def __init__(
             self, email, password, first,
-            last, bio, university, major, year
+            last, bio, university, major
         ):
-        super(Mentor, self).__init__( email, password, first, last, bio)
+        User.__init__(self, email, password, first, last, bio)
         self.university = university
         self.major = major
-        self.year = year
         self.role = 2
