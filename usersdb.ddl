@@ -2,8 +2,8 @@ CREATE SCHEMA usersdb;
 
 CREATE TABLE User(
 email PRIMARY KEY,
-password varchar,
-user_type integer NOT NULL,
+password varchar(20),
+user_type enum('0','1','2') NOT NULL,
 first_name varchar NOT NULL,
 last_name varchar NOT NULL);
 
@@ -17,7 +17,7 @@ PRIMARY KEY(email, school));
 CREATE TABLE GoesToHS(
 email NOT NULL REFERENCES Mentor,
 school varchar NOT NULL,
-Year integer,
+grade integer,
 PRIMARY KEY(email, school));
 
 CREATE TABLE Universities(
