@@ -21,6 +21,4 @@ angular.module('FutureConnect.login', [
             method: 'POST',
             url: $rootScope.backendURL + 'login'
         }
-
-        
     })
