@@ -1,10 +1,7 @@
 import MySQLdb
 
-db = MySQLdb.connect("localhost", "root", "265358", "usersdb")
-
+db = MySQLdb.connect("localhost", "root", "data", "FutureConnectDev")
 cursor = db.cursor()
-
-db.close()
 
 
 class User:
@@ -14,19 +11,25 @@ class User:
         Adds user to table.
         Consists of SQL
 
-        :return:
+        :return: User instance
         '''
-        # If role is admin add to Users table
-        if self.role == 0:
-            pass
-        # Else if role is High School add to users
-        # and high school table
-        elif self.role == 1:
-            pass
-        # Else(role is P.S.) add to users table
-        # and Post Secondary table
-        else:
-            pass
+        insert_user_sql = (
+            "INSERT INTO Users "
+            "(fName, lName, email, bio, role, password) "
+            "VALUES "
+            "('%s', '%s', '%s', '%s', '%s', '%s')"% (
+                self.first,
+                self.last,
+                self.email,
+                self.bio,
+                self.role,
+                self.password
+            )
+        )
+        # Insert User into DB
+        cursor.execute(insert_user_sql)
+        db.commit()
+
 
     def remove_user(self):
         '''
@@ -36,19 +39,9 @@ class User:
 
         :return:
         '''
-        # If role is admin remove from Users table
-        if self.role == 0:
-            pass
-        # Else if role is High School remove from users
-        # and high school table
-        elif self.role == 1:
-            pass
-        # Else(role is P.S.) remove from users table
-        # and Post Secondary table
-        else:
-            pass
+        pass
 
-    def __init__(self, email, password, role, first, last, bio):
+    def __init__(self, email, password, first, last, bio):
         '''
         :param email: users email
         :param password: users password
@@ -61,22 +54,36 @@ class User:
 
         self.email = email
         self.password = password
-        self.role = role
+        self.role = 0
         self.first = first
         self.last = last
         self.bio = bio
 
 
 class HighSchool(User):
-    def __init__(self, email, password, first, last, bio, year, high_school):
-        super(HighSchool, self).__init__(email, password, first, last, bio, year)
-        self.high_school = high_school
-        self.year = year
+
+    def add_HighSchooler(self):
+        pass
+
+    def __init__(
+            self, email, password, first, last, bio, high_school
+        ):
+
+        super(HighSchool, self).__init__(email, password, first, last, bio)
+        self.school = high_school
+        self.role = 1
 
 class Mentor(User):
-    def __init__(self, email, password, first, last, bio, university,
-                 major, year):
-        super(Mentor, self).__init__(email, password, first, bio)
+
+    def add_Mentor(self):
+        pass
+    
+    def __init__(
+            self, email, password, first,
+            last, bio, university, major, year
+        ):
+        super(Mentor, self).__init__( email, password, first, last, bio)
         self.university = university
         self.major = major
         self.year = year
+        self.role = 2
