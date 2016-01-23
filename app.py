@@ -100,7 +100,12 @@ class TestUserResponse(Resource):
         return {
             'Users': Users
         }
+class TestServer(Resource):
+    def get(self):
+        return 'Testing'
+
 api.add_resource(TestUserResponse, '/Users')
+api.add_resource(TestServer, '/')
 '''
 ==== End Test Cases ===
 '''
