@@ -1,7 +1,9 @@
 __author__ = 'BatesG1996'
 
-from flask import Flask
+from flask import Flask, url_for, request
 from flask_restful import Resource, Api
+
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -40,10 +42,13 @@ def Authenticate(cred):
             'Message': 'Password incorrect'
         }
 
-class Login:
-
-    def get(self):
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        Authenticate(request.data)
+    else:
         pass
+
 
 '''
 ==== Begin Test Cases ===

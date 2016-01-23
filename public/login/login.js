@@ -19,6 +19,8 @@ angular.module('FutureConnect.login', [
     .run(function($rootScope) {
         var login_Post = {
             method: 'POST',
-            url: $rootScope.backendURL + 'authenticate'
+            url: $rootScope.backendURL + 'login'
         }
+
+        
     })
