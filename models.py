@@ -52,25 +52,12 @@ cursor.execute(sql2)
 # disconnect from server
 db.close()
 
-
-
-
-
-
 class User:
 
     def __init__(self, email, password, first, last, bio, age):
 
-        self.email, self.password, self.first, self.last, self.bio = \
+        self.email, self.password, self.first, self.last, self.bio, self.age = \
         email, password, first, last, bio, age
-
-    def delete_user(self, user):
-        pass
-        #delete user
-
-    def get_data(self):
-        pass
-        #return database data
 
 
 class HighSchool(User):
@@ -106,6 +93,15 @@ class University(User):
         cursor.execute(sql.format(self.email, self.password, self.age,
                                   self.first, self.last,self.bio,
                                   self.university, self.major))
+
+class Admin(User):
+
+    def __init__(self, email, password, first, last, bio, age):
+        super(Admin, self).__init__(email, password, first, last, bio, age)
+        #Admin does not take any special arguments
+
+    def delete_user(self, user):
+        #admin can delete users
 
 
 
