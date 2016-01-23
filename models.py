@@ -13,7 +13,7 @@ __author__ = 'BatesG1996'
 #User ID "testuser" and password "test123" are set to access TESTDB.
 
 #Python module MySQLdb is installed properly on your machine.
-'''
+
 import MySQLdb
 
 # Open database connection
@@ -29,9 +29,10 @@ cursor.execute("SELECT VERSION()")
 sql1 = """CREATE TABLE UNIVERSITY (
          EMAIL  CHAR(100) NOT NULL,
          PASSWORD  CHAR(100) NOT NULL,
-         AGE INT NOT NULL,
+         AGE CHAR(3) NOT NULL,
          FIRST_NAME CHAR(100) NOT NULL,
          LAST_NAME CHAR(100) NOT NULL,
+         BIO CHAR(200),
          UNIVERSITY CHAR(100) NOT NULL,
          MAJOR CHAR(100))"""
 
@@ -39,18 +40,14 @@ sql1 = """CREATE TABLE UNIVERSITY (
 sql2 = """CREATE TABLE HIGHSCHOOLS (
          EMAIL CHAR(100) NOT NULL,
          PASSWORD CHAR (100) NOT NULL,
-         AGE INT NOT NULL,
-         FIRST_NAME CHAR(100), NOT NULL
-         LAST_NAME CHAR(100), NOT NULL
-         HIGHSCHOOL CHAR(100), NOT NULL)"""
+         AGE CHAR(3) NOT NULL,
+         FIRST_NAME CHAR(100) NOT NULL,
+         LAST_NAME CHAR(100) NOT NULL,
+         BIO CHAR(200),
+         HIGHSCHOOL CHAR(100) NOT NULL,)"""
 
 cursor.execute(sql1)
 cursor.execute(sql2)
-
-# Fetch a single row using fetchone() method.
-data = cursor.fetchone()
-
-print "Database version : %s " % data
 
 # disconnect from server
 db.close()
@@ -58,18 +55,14 @@ db.close()
 
 
 
-'''
+
 
 class User:
 
-    def __init__(self, email, password, first, last, bio):
+    def __init__(self, email, password, first, last, bio, age):
 
         self.email, self.password, self.first, self.last, self.bio = \
-        email, password, first, last, bio
-
-    def add_user(self, user):
-        pass
-        #add user to database
+        email, password, first, last, bio, age
 
     def delete_user(self, user):
         pass
@@ -80,22 +73,39 @@ class User:
         #return database data
 
 
+class HighSchool(User):
 
-class Highschool(User):
+    def __init__(self, email, password, first, last, bio, age, high_school):
 
-    def __init__(self, email, password, first, last, bio, highschool):
+        super(HighSchool, self).__init__(email, password, first, last, bio, age)
+        self.high_school = high_school
 
-        super(Highschool, self).__init__(email, password, first, last)
-        self.highschool = highschool
-
+        #the SQL commands
+        sql = """INSERT INTO UNIVERSITY (
+                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
+                        HIGHSCHOOL)
+                        VALUES ({0},{1},{2},{3},{4},{5},{6})"""
+        cursor.execute(sql.format(self.email, self.password, self.age,
+                                  self.first, self.last,self.bio,
+                                  self.high_school))
 
 class University(User):
 
-    def __init__(self, email, password, first, last, bio, university, major):
+    def __init__(self, email, password, first, last, bio, age, university,
+                 major):
 
-        super(University, self).__init__(email, password, first, last)
+        super(University, self).__init__(email, password, first, last, bio, age)
         self.university, self.major = university, major
 
+    def add_uni(self):
+        #the SQL commands
+        sql = """INSERT INTO UNIVERSITY (
+                        EMAIL, PASSWORD, AGE, FIRST_NAME, LAST_NAME, BIO,
+                        UNIVERSITY, MAJOR)
+                        VALUES ({0},{1},{2},{3},{4},{5},{6},{7})"""
+        cursor.execute(sql.format(self.email, self.password, self.age,
+                                  self.first, self.last,self.bio,
+                                  self.university, self.major))
 
 
 
