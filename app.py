@@ -102,7 +102,7 @@ class TestUserResponse(Resource):
         }
 class TestServer(Resource):
     def get(self):
-        return 'Testing'
+        return '<h1>Test</h1>'
 
 api.add_resource(TestUserResponse, '/Users')
 api.add_resource(TestServer, '/')
