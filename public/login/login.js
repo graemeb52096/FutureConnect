@@ -11,19 +11,14 @@ angular.module('FutureConnect.login', [
             });
     }])
 
-    .controller('loginCtrl', ['$rootScope, $scope', function($rootScope, $scope) {
+    .controller('loginCtrl', ['$scope', function($scope) {
         $scope.Test = 'This is the login page';
 
+    }])
+
+    .run(function($rootScope) {
         var login_Post = {
             method: 'POST',
             url: $rootScope.backendURL + 'authenticate'
         }
-
-        $http.post(login_URL, ).success(function(data, status, headers, config) {
-            console.log(data);
-            $rootScope.Users = data.Users
-        }).error(function(data, status, headers, config) {
-            console.log('error');
-            console.log(arguments);
-        });
-    }])
+    })
