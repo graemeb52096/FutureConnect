@@ -29,7 +29,6 @@ CREATE TABLE GoesToUni (
     email VARCHAR(255) NOT NULL,
     school VARCHAR(255) NOT NULL,
     major VARCHAR(255) NOT NULL,
-    Year INTEGER,
 
     PRIMARY KEY (email, school, major),
 
@@ -41,7 +40,6 @@ CREATE TABLE GoesToUni (
 CREATE TABLE GoesToHS (
     email VARCHAR(255) NOT NULL,
     school VARCHAR(255) NOT NULL,
-    grade INTEGER,
 
     PRIMARY KEY (email, school),
 
