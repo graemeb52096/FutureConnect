@@ -150,5 +150,5 @@ api.add_resource(TestServer, '/')
 ==== End Test Cases ===
 '''
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+#    app.run(debug=True)
