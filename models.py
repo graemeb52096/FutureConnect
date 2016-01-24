@@ -28,6 +28,7 @@ def get_user_information():
 
     cursor.execute(pull_users_sql)
     results = cursor.fetchall()
+    us = []
     users = {}
     for user in results:
         email = user[0]
@@ -45,6 +46,14 @@ def get_user_information():
                 'fName': fName,
                 'lName': lName
             }
+            us.append({
+                'email': email,
+                'password': password,
+                'role': role,
+                'bio': bio,
+                'fName': fName,
+                'lName': lName
+            })
         else:
             users[email] = {
                 'email': email,
@@ -56,8 +65,18 @@ def get_user_information():
                 'school': (mentors[email])['school'],
                 'major': (mentors[email])['major']
             }
+            us.append({
+                'email': email,
+                'password': password,
+                'role': role,
+                'bio': bio,
+                'fName': fName,
+                'lName': lName,
+                'school': (mentors[email])['school'],
+                'major': (mentors[email])['major']
+            })
 
-    return {'users': users}
+    return {'users': users, 'us': us}
 
 
 

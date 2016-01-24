@@ -17,11 +17,13 @@
                             <th>Name</th>
                             <th>Program</th>
                             <th>School</th>
-                            <th></th>
+                            <th>
+                                <label>Search: <input ng-model="searchText"></label>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="User in Users | orderBy:sort" ng-if="User.role == 2">
+                        <tr ng-repeat="User in us | filter:searchText" ng-if="User.role == 2">
                             <td>{{ User.fName }} {{ User.lName }}</td>
                             <td>{{ User.major }}</td>
                             <td>{{ User.school }}</td>

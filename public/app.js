@@ -24,7 +24,8 @@ angular.module('FutureConnect', [
         $http.get(main_URL).success(function(data, status, headers, config) {
             console.log(data);
             $rootScope.Users = data.users;
-            $rootScope.Mentors = data.mentors;
+
+            $rootScope.us = data.us;
             console.log($rootScope.Users);
         }).error(function(data, status, headers, config) {
             console.log('error');
