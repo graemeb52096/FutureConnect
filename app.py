@@ -62,8 +62,8 @@ def register():
 
     if request.method == 'POST':
         data = json.loads(request.data)
-
-        if data['role'] == 2:
+        print data['role']
+        if int(data['role']) == 2:
             new_mentor = models.Mentor(
                 data['email'],
                 data['password'],
@@ -75,9 +75,9 @@ def register():
             )
 
             new_mentor.add_Mentor()
+            return json.dumps({'Response': 'Added new Mentor'})
 
-        elif data['role'] == 1:
-
+        elif int(data['role']) == 1:
             new_highschool = models.HighSchool(
                 data['email'],
                 data['password'],
@@ -88,6 +88,9 @@ def register():
             )
 
             new_highschool.add_HighSchooler()
+            return json.dumps({'Response': 'Added new HighSchool Student'})
+    else:
+        return json.dumps({'Response': 'False'})
 
 '''
 ==== Begin Test Cases ===

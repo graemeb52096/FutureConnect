@@ -25,34 +25,40 @@ angular.module('FutureConnect.register', [
         $scope.school = '';
         $scope.major = '';
 
-        if ($scope.role == 1){
-            var data = {
-
-            }
-        }
-
-
-
         $scope.submitForm = function() {
+            if ($scope.role == 1){
+                var registration_data = {
+                    'email': $scope.email,
+                    'first': $scope.fName,
+                    'last': $scope.lName,
+                    'bio': $scope.bio,
+                    'role': $scope.role,
+                    'school': $scope.school,
+                    'password': $scope.password
+                }
+            }
+            else{
+                var registration_data = {
+                    'email': $scope.email,
+                    'first': $scope.fName,
+                    'last': $scope.lName,
+                    'bio': $scope.bio,
+                    'school': $scope.school,
+                    'role': $scope.role,
+                    'major': $scope.major,
+                    'password': $scope.password
+                }
+            }
+
             $http({
                 method: 'POST',
                 url: $rootScope.backendURL + 'register',
-                data: {
-
-                },
+                data: registration_data,
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).success(function(data, status, headers, config) {
                 console.log(data);
-                if(data['Response'] == 'True'){
-                    $rootScope.logged = true;
-                    $rootScope.user = data['Data']
-                    $location.path('/landing');
-                }
-                else{
-                    $scope.message = data['Message'];
-                }
             }).error(function(data, status, headers, config) {
                 console.log('error');
                 console.log(arguments);
