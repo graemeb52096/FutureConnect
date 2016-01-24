@@ -19,11 +19,13 @@ angular.module('FutureConnect', [
         var backendURL = devbackendURL;
 
         $rootScope.backendURL = backendURL;
-        var main_URL = backendURL + 'Users';
+        var main_URL = backendURL + 'users';
 
         $http.get(main_URL).success(function(data, status, headers, config) {
             console.log(data);
-            $rootScope.Users = data.Users
+            $rootScope.Users = data.users;
+            $rootScope.Mentors = data.mentors;
+            console.log($rootScope.Users);
         }).error(function(data, status, headers, config) {
             console.log('error');
             console.log(arguments);

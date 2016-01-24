@@ -22,6 +22,7 @@ def Authenticate(cred):
     '''
     # Validate User
     try:
+        Users = (models.get_user_information())['users']
         # Check users for given email
         goal_User = Users[cred['email']]
     # If user is not found, return key error
@@ -94,14 +95,11 @@ def register():
 
 @app.route('/users', methods=['GET'])
 def users():
-
-    Users, Mentors = models.get_user_information()
-
-    pass
+    return json.dumps(models.get_user_information())
 
 '''
 ==== Begin Test Cases ===
-'''
+
 Graeme = {
     'fName': 'Graeme',
     'lName': 'Bates',
@@ -146,9 +144,8 @@ class TestServer(Resource):
 
 api.add_resource(TestUserResponse, '/Users')
 api.add_resource(TestServer, '/')
-'''
 ==== End Test Cases ===
 '''
 
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

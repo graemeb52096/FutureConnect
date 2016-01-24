@@ -1,11 +1,67 @@
 import MySQLdb
-
+import json
 db = MySQLdb.connect("localhost", "root", "data", "FutureConnectDev")
 cursor = db.cursor()
 
 def get_user_information():
+    pull_mentors_sql = (
+        "SELECT * FROM Mentors"
+    )
 
-    pass
+    cursor.execute(pull_mentors_sql)
+    results = cursor.fetchall()
+    mentors = {}
+    for mentor in results:
+        email = mentor[0]
+        school = mentor[1]
+        major = mentor[2]
+
+        mentors[email] = {
+            'email': email,
+            'school': school,
+            'major': major
+        }
+
+    pull_users_sql = (
+        "SELECT * FROM Users"
+    )
+
+    cursor.execute(pull_users_sql)
+    results = cursor.fetchall()
+    users = {}
+    for user in results:
+        email = user[0]
+        password = user[1]
+        role = user[2]
+        bio = user[3]
+        fName = user[4]
+        lName = user[5]
+        if int(role) != 2:
+            users[email] = {
+                'email': email,
+                'password': password,
+                'role': role,
+                'bio': bio,
+                'fName': fName,
+                'lName': lName
+            }
+        else:
+            users[email] = {
+                'email': email,
+                'password': password,
+                'role': role,
+                'bio': bio,
+                'fName': fName,
+                'lName': lName,
+                'school': (mentors[email])['school'],
+                'major': (mentors[email])['major']
+            }
+
+    return {'users': users}
+
+
+
+
 
 class User(object):
     def add_user(self):
@@ -82,7 +138,7 @@ class HighSchool(User):
 
     def __init__(
             self, email, password, first, last, bio, high_school
-        ):
+    ):
 
         User.__init__(self, email, password, first, last, bio)
         self.school = high_school
@@ -109,7 +165,7 @@ class Mentor(User):
     def __init__(
             self, email, password, first,
             last, bio, university, major
-        ):
+    ):
         User.__init__(self, email, password, first, last, bio)
         self.university = university
         self.major = major

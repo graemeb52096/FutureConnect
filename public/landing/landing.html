@@ -17,15 +17,17 @@
                             <th>Name</th>
                             <th>Program</th>
                             <th>School</th>
-                            <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="User in Users | orderBy:sort" ng-if="User.type == 2">
+                        <tr ng-repeat="User in Users | orderBy:sort" ng-if="User.role == 2">
                             <td>{{ User.fName }} {{ User.lName }}</td>
-                            <td>{{ User.program }}</td>
-                            <td>{{ User.uni }}</td>
-                            <td>{{ User.email }}</td>
+                            <td>{{ User.major }}</td>
+                            <td>{{ User.school }}</td>
+                            <td>
+                                <a href="mailto:{{ User.email }}">Email Me</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
