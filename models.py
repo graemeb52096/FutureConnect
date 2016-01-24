@@ -63,7 +63,19 @@ class User(object):
 class HighSchool(User):
 
     def add_HighSchooler(self):
-        pass
+        self.add_user()
+        insert_HighSchooler_sql = (
+            "INSERT INTO HighSchool "
+            "(email, school) "
+            "VALUES "
+            "('%s', '%s')"% (
+                self.email,
+                self.school
+            )
+        )
+        # Insert User into DB
+        cursor.execute(insert_HighSchooler_sql)
+        db.commit()
 
     def __init__(
             self, email, password, first, last, bio, high_school
@@ -76,7 +88,20 @@ class HighSchool(User):
 class Mentor(User):
 
     def add_Mentor(self):
-        pass
+        self.add_user()
+        insert_Mentor_sql = (
+            "INSERT INTO HighSchool "
+            "(email, school, major) "
+            "VALUES "
+            "('%s', '%s', '%s')"% (
+                self.email,
+                self.university,
+                self.major
+            )
+        )
+        # Insert User into DB
+        cursor.execute(insert_Mentor_sql)
+        db.commit()
 
     def __init__(
             self, email, password, first,
