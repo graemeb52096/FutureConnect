@@ -1,0 +1,44 @@
+<div ng-controller="registerCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col m12 l10 offset-l1">
+                <h2 class="center-align">{{ message }}</h2>
+                <form name="registerForm" ng-submit="submitForm()">
+                    <br />
+                    Email: <input type="email" ng-model="email" />
+                    <br />
+                    First Name: <input type="text" ng-model="fName">
+                    <br />
+                    Last Name: <input type="text" ng-model="lName">
+                    <br />
+                    Password: <input type="password" ng-model="password" />
+                    <br />
+                    Password: <input type="password" ng-model="password1" />
+                    <h5 ng-if="password1 != password">Passwords do not match</h5>
+                    <br />
+                    Bio: <input type="text" ng-model="bio" />
+                    <br />
+                    Currently in:
+                    <input type="radio" id="highschool" ng-model="role" value="1" />
+                    <label for="highschool">High School</label>
+
+                    <input type="radio" id="undergrad" ng-model="role" value="2" />
+                    <label for="undergrad">Undergrad</label>
+                    <br />
+                    <br />
+                    <div ng-if="role==1">
+                        HighSchool: <input type="text" ng-model="school"/>
+                    </div>
+                    <div ng-if="role==2">
+                        Program area: <input type="text" ng-model="ProgramArea"/>
+                        <br />
+                        University: <input type="text" ng-model="school"/>
+                    </div>
+                    <br />
+                    <br />
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

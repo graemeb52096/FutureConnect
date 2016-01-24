@@ -64,17 +64,28 @@ def register():
         data = json.loads(request.data)
 
         if data['role'] == 2:
-            new_mentor = models.Mentor(data['email'], data['password'],
-            data['age'], data['first'], data['last'], data['bio'],
-            data['highschool'])
+            new_mentor = models.Mentor(
+                data['email'],
+                data['password'],
+                data['first'],
+                data['last'],
+                data['bio'],
+                data['school'],
+                data['major']
+            )
 
             new_mentor.add_Mentor()
 
         elif data['role'] == 1:
 
-            new_highschool = models.HighSchool(data['email'], data['password'],
-            data['age'], data['first'], data['last'], data['bio'],
-            data['highschool'])
+            new_highschool = models.HighSchool(
+                data['email'],
+                data['password'],
+                data['first'],
+                data['last'],
+                data['bio'],
+                data['school']
+            )
 
             new_highschool.add_HighSchooler()
 

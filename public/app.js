@@ -4,6 +4,7 @@ angular.module('FutureConnect', [
     'ngRoute',
     'FutureConnect.login',
     'FutureConnect.landing',
+    'FutureConnect.register'
 ])
 
     .config(['$routeProvider', function($routeProvider) {
