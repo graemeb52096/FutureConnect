@@ -3,6 +3,9 @@ import MySQLdb
 db = MySQLdb.connect("localhost", "root", "data", "FutureConnectDev")
 cursor = db.cursor()
 
+def get_user_information():
+
+    pass
 
 class User(object):
     def add_user(self):
@@ -90,7 +93,7 @@ class Mentor(User):
     def add_Mentor(self):
         self.add_user()
         insert_Mentor_sql = (
-            "INSERT INTO HighSchool "
+            "INSERT INTO Mentors "
             "(email, school, major) "
             "VALUES "
             "('%s', '%s', '%s')"% (
@@ -111,3 +114,25 @@ class Mentor(User):
         self.university = university
         self.major = major
         self.role = 2
+
+'''
+TestMentor1 = Mentor(
+    'batesg1996@gmail.com',
+    'password',
+    'Graeme', 'Bates',
+    'Pretty Fly For a White Guy.',
+    'University of Toronto',
+    'Computer Science'
+)
+TestMentor1.add_Mentor()
+
+TestMentor2 = Mentor(
+    'mentor@example.com',
+    'password',
+    'Joe', 'Smith',
+    'Example Mentor.',
+    'University of British Columbia',
+    'Philosophy'
+)
+TestMentor2.add_Mentor()
+'''

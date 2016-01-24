@@ -92,6 +92,13 @@ def register():
     else:
         return json.dumps({'Response': 'False'})
 
+@app.route('/users', methods=['GET'])
+def users():
+
+    Users, Mentors = models.get_user_information()
+
+    pass
+
 '''
 ==== Begin Test Cases ===
 '''
